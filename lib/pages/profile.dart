@@ -15,7 +15,7 @@ class Profile extends StatelessWidget {
   final Account user;
 
   final Box emailsBox = Hive.box("emails5");
-  final Box eventsBox = Hive.box("events12");
+  final Box eventsBox = Hive.box("events13");
 
   final AssetImage? defaultImage = const AssetImage('assets/default_photo.jpg');
 

@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,7 +6,8 @@ import 'package:hive/hive.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+
 import 'dart:convert';
 import '../components/email.dart';
 
@@ -25,7 +24,7 @@ class Dashboard extends StatefulWidget {
   Dashboard({Key? key, required this.user}) : super(key: key);
 
   final Box box2 = Hive.box("accounts10");
-  final Box box = Hive.box("events12");
+  final Box box = Hive.box("events13");
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -77,9 +76,15 @@ class _DashboardState extends State<Dashboard> {
       }
       if (image == null) return;
 
-      final File imageTemporary = File(image.path);
-      List<int> imageBytes = imageTemporary.readAsBytesSync();
-      return base64Encode(imageBytes);
+      var result = await FlutterImageCompress.compressWithFile(
+        image.path,
+        minWidth: 1920,
+        minHeight: 1080,
+        quality: 75,
+      );
+      if (result != null) {
+        return base64Encode(result);
+      }
     } on PlatformException catch (e) {
       throw 'Failed to pick image: $e';
     }
@@ -205,7 +210,8 @@ class _DashboardState extends State<Dashboard> {
                             longitude: _coordinates!.longitude,
                             item: _eventName as String,
                             timeEnding: _dateTime as DateTime,
-                            imgs: List.from(_images), //FIXED: I referenced the _events in the db and it made the photos for every listing the same. This instead creates a copy and stores it in the db :)
+                            imgs: List.from(
+                                _images), //FIXED: I referenced the _events in the db and it made the photos for every listing the same. This instead creates a copy and stores it in the db :)
                             userEmail: widget.user.email,
                           );
                           eventTable.add(event);

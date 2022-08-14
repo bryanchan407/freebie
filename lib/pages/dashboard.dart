@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,7 +25,7 @@ class Dashboard extends StatefulWidget {
   Dashboard({Key? key, required this.user}) : super(key: key);
 
   final Box box2 = Hive.box("accounts10");
-  final Box box = Hive.box("events11");
+  final Box box = Hive.box("events12");
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -79,7 +79,7 @@ class _DashboardState extends State<Dashboard> {
 
       final File imageTemporary = File(image.path);
       List<int> imageBytes = imageTemporary.readAsBytesSync();
-      return imageBytes;
+      return base64Encode(imageBytes);
     } on PlatformException catch (e) {
       throw 'Failed to pick image: $e';
     }
@@ -173,8 +173,7 @@ class _DashboardState extends State<Dashboard> {
                           child: const Text("Take image"),
                           onPressed: () async {
                             _pickImage(true).then((result) {
-                              setState(
-                                  () => {_images.add(base64Encode(result))});
+                              setState(() => {_images.add(result)});
                             });
                           },
                           style: ElevatedButton.styleFrom(
@@ -183,8 +182,7 @@ class _DashboardState extends State<Dashboard> {
                           child: const Text("Select image"),
                           onPressed: () async {
                             _pickImage(false).then((result) {
-                              setState(
-                                  () => {_images.add(base64Encode(result))});
+                              setState(() => {_images.add(result)});
                             });
                           },
                           style: ElevatedButton.styleFrom(
@@ -207,7 +205,7 @@ class _DashboardState extends State<Dashboard> {
                             longitude: _coordinates!.longitude,
                             item: _eventName as String,
                             timeEnding: _dateTime as DateTime,
-                            imgs: _images,
+                            imgs: List.from(_images), //FIXED: I referenced the _events in the db and it made the photos for every listing the same. This instead creates a copy and stores it in the db :)
                             userEmail: widget.user.email,
                           );
                           eventTable.add(event);
@@ -227,7 +225,6 @@ class _DashboardState extends State<Dashboard> {
               ),
             )));
   }
-
 
   @override
   Widget build(BuildContext context) {

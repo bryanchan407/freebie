@@ -24,7 +24,7 @@ class EventDescript extends StatelessWidget {
   LatLng currLocation;
   Placemark placemark;
 
-  final Box box = Hive.box("events11");
+  final Box box = Hive.box("events12");
   final Box box2 = Hive.box("accounts10");
   final Box box3 = Hive.box("emails5");
 

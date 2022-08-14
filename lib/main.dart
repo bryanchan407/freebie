@@ -11,7 +11,7 @@ Future<void> main() async {
   Hive.registerAdapter<Account>(AccountAdapter());
   Hive.registerAdapter<Event>(EventAdapter());
   await Hive.openBox('accounts10');
-  await Hive.openBox('events11');
+  await Hive.openBox('events12');
   await Hive.openBox("emails5");
   runApp(const App());
 }

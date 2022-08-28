@@ -15,7 +15,7 @@ class FreebieDash extends StatelessWidget {
 
   final bool type;
   final Account user;
-  final Box box = Hive.box("events13");
+  final Box box = Hive.box("events14");
   final Box box2 = Hive.box("accounts10");
   final Box box3 = Hive.box("emails5");
 

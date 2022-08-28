@@ -24,7 +24,7 @@ class EventDescript extends StatelessWidget {
   LatLng currLocation;
   Placemark placemark;
 
-  final Box box = Hive.box("events13");
+  final Box box = Hive.box("events14");
   final Box box2 = Hive.box("accounts10");
   final Box box3 = Hive.box("emails5");
 
@@ -105,8 +105,7 @@ class EventDescript extends StatelessWidget {
   Widget _showRSVP(BuildContext context, Event e) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("dddd", style: GoogleFonts.lexend()),
-        backgroundColor: const Color(0xffb099e1),
+        title: Text("RSVP", style: GoogleFonts.lexend()),
       ),
       body: Container(
         padding: const EdgeInsets.all(16),
@@ -120,7 +119,7 @@ class EventDescript extends StatelessWidget {
           TextField(
             controller: descController,
             decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.title), labelText: "Description"),
+                prefixIcon: Icon(Icons.description), labelText: "Description"),
             maxLines: 2,
           ),
           Center(
@@ -185,15 +184,16 @@ class EventDescript extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 1,
-                    crossAxisSpacing: 5,
-                    mainAxisSpacing: 10),
+                    crossAxisSpacing: 300,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: 1.3),
                 itemCount: e.imgs.length,
-                itemBuilder: (context, index) {
-                  return Image.memory(base64Decode(e.imgs[index]));
+                itemBuilder: (context, i) {
+                  return Image.memory(base64Decode(e.imgs[i]), width: widthScreen);
                 },
               ),
               height: heightScreen * 0.3,
-              width: widthScreen),
+              width: widthScreen * 0.95),
           const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
           Expanded(
             child: Row(

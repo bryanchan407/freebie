@@ -24,7 +24,7 @@ class Dashboard extends StatefulWidget {
   Dashboard({Key? key, required this.user}) : super(key: key);
 
   final Box box2 = Hive.box("accounts10");
-  final Box box = Hive.box("events13");
+  final Box box = Hive.box("events14");
 
   @override
   State<Dashboard> createState() => _DashboardState();

@@ -11,7 +11,7 @@ Future<void> main() async {
   Hive.registerAdapter<Account>(AccountAdapter());
   Hive.registerAdapter<Event>(EventAdapter());
   await Hive.openBox('accounts10');
-  await Hive.openBox('events13');
+  await Hive.openBox('events14');
   await Hive.openBox("emails5");
   runApp(const App());
 }
@@ -24,7 +24,7 @@ class App extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "Freebie",
-        theme: ThemeData(primaryColor: Colors.blue[500]),
+        theme: ThemeData(useMaterial3: true, primaryColor: const Color(0xffb099e1)),
         home: Login());
   }
 }

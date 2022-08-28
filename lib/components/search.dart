@@ -87,45 +87,51 @@ class SearchEvents extends SearchDelegate<String> {
             }
             List<Placemark> innerPlacemarks = snapshot.data as List<Placemark>;
             return ListView.builder(
-                itemCount: _eventSuggestions.length,
-                itemBuilder: (context, index) => ListTile(
-                      title: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(_eventSuggestions[index],
-                              style: GoogleFonts.lexend(fontSize: 18)),
-                          Text(
-                              innerPlacemarks[index].street! +
-                                  ", " +
-                                  innerPlacemarks[index].locality! +
-                                  ", " +
-                                  innerPlacemarks[index].administrativeArea! +
-                                  ' ' +
-                                  innerPlacemarks[index].postalCode!,
-                              style: GoogleFonts.lexend(
-                                  fontSize: 14, color: Colors.grey)),
-                          Text(events[index].description,
-                              style: GoogleFonts.lexend(
-                                  fontSize: 12, color: Colors.black))
-                        ],
-                      ),
-                      leading: ConstrainedBox(
-                          constraints: const BoxConstraints(
-                              minHeight: 50,
-                              maxHeight: 50,
-                              minWidth: 50,
-                              maxWidth: 50),
-                          child: Image.memory(
-                              base64Decode(events[index].imgs.first))),
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => EventDescript(
-                                  e: events[index],
-                                  currLocation: currentLocation,
-                                  placemark: innerPlacemarks[index],
-                                  user: user)))),
-                    ));
+                itemCount: _eventSuggestions.length * 2,
+                itemBuilder: (context, i) {
+                  if (i.isOdd) {
+            return const Divider(color: Color(0xffcae199), thickness: 2);
+          }
+          final index = i ~/ 2;
+                  return ListTile(
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(_eventSuggestions[index],
+                            style: GoogleFonts.lexend(fontSize: 18)),
+                        Text(
+                            innerPlacemarks[index].street! +
+                                ", " +
+                                innerPlacemarks[index].locality! +
+                                ", " +
+                                innerPlacemarks[index].administrativeArea! +
+                                ' ' +
+                                innerPlacemarks[index].postalCode!,
+                            style: GoogleFonts.lexend(
+                                fontSize: 14, color: Colors.grey)),
+                        Text(events[index].description,
+                            style: GoogleFonts.lexend(
+                                fontSize: 12, color: Colors.black))
+                      ],
+                    ),
+                    leading: ConstrainedBox(
+                        constraints: const BoxConstraints(
+                            minHeight: 50,
+                            maxHeight: 50,
+                            minWidth: 50,
+                            maxWidth: 50),
+                        child: Image.memory(
+                            base64Decode(events[index].imgs.first))),
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: ((context) => EventDescript(
+                                e: events[index],
+                                currLocation: currentLocation,
+                                placemark: innerPlacemarks[index],
+                                user: user)))),
+                  );
+                });
           } else if (snapshot.hasError) {
             return const Text("Something went wrong.");
           } else {
